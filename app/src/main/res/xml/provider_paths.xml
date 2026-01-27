@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+    For sending an attachment, share 'docs/' private files directory,
+    publicly visible as 'docs'.
+    -->
+    <files-path name="docs" path="docs/" />
+
+    <!--
+    For requesting photo capture, share 'photos/' private cache directory
+    and expose it as 'photos'.
+    We use cache directory to avoid dangling file if we fail to delete it after use.
+    -->
+    <cache-path name="photos" path="photos/" />
+
+</paths>
