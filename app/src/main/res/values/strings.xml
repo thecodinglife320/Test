@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Test</string>
+    <string name="students_score">You scored %1$s out of %2$d</string>
+    <plurals name="points">
+        <item quantity="one">%d point</item>
+        <item quantity="other">%d points</item>
+    </plurals>
 </resources>
