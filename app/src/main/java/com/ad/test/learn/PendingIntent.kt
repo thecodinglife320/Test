@@ -1,4 +1,4 @@
-package com.ad.test.core_component
+package com.ad.test.learn
 
 import android.Manifest
 import android.app.AlarmManager

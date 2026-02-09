@@ -1,8 +1,9 @@
-package com.ad.test.core_component
+package com.ad.test.learn
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context
+import android.app.PendingIntent
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,10 +12,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationCompat
 import com.ad.test.R
 import com.ad.test.ui.theme.TestTheme
@@ -49,18 +50,11 @@ class PostingNotifications : ComponentActivity() {
                             .fillMaxSize()
                             .padding(it)
                     ) {
-                        val context = LocalContext.current
-                        LaunchedEffect(Unit) {
-                            val notificationBuilder =
-                                NotificationCompat.Builder(context, CHANNEL_ID)
-                                    .setSmallIcon(R.drawable.outline_save_24)
-                                    .setContentTitle("Delivery")
-                                    .setContentText("Food is ready!")
-                                    .setStyle(NotificationCompat
-                                        .BigTextStyle()
-                                        .bigText("Some long text message")
-                                    )
-                                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        Button({
+                            val notification = createNotification()
+                            notificationManager.notify(0, notification)
+                        }) {
+                            Text("Notification")
                         }
                     }
                 }
@@ -68,4 +62,29 @@ class PostingNotifications : ComponentActivity() {
         }
     }
 
+    private fun createNotification() =
+        NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.outline_save_24)
+            .setContentTitle("Delivery")
+            .setContentText("Food is ready!")
+            .setStyle(
+                NotificationCompat
+                    .BigTextStyle()
+                    .bigText("Some long text message")
+            )
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(
+                PendingIntent.getActivity(
+                    this,
+                    0,
+                    Intent(
+                        this,
+                        this@PostingNotifications::class.java
+                    ),
+                    PendingIntent.FLAG_IMMUTABLE
+                )
+            )
+            .setAutoCancel(true)
+            .setOnlyAlertOnce(true)
+            .build()
 }

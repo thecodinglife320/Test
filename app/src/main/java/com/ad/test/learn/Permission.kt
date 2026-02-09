@@ -1,4 +1,4 @@
-package com.ad.test.core_component
+package com.ad.test.learn
 
 import android.Manifest
 import android.app.AlertDialog
@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -38,6 +39,11 @@ class PermissionAc : ComponentActivity() {
             ::onRequestAllPermissionResult
         )
 
+    private val permissions = arrayOf(
+        Manifest.permission.CAMERA,
+        Manifest.permission.CALL_PHONE
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -49,11 +55,45 @@ class PermissionAc : ComponentActivity() {
                             .fillMaxSize()
                             .padding(paddingValues)
                     ) {
-                        Button(::checkPermission) {
-                            Text("Chup anh")
+                        Button(::checkPermissions) {
+                            Text("Request multiple permissions")
                         }
                     }
                 }
+            }
+        }
+    }
+
+    fun checkPermissions() {
+        val permissionsToRequest = permissions.filter {
+            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+        }.toTypedArray()
+
+        when {
+            permissionsToRequest.isEmpty() -> {
+                Toast.makeText(this, "All permissions are already granted.", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            permissionsToRequest.any { permission ->
+                ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
+            } -> {
+                permissionsToRequest.forEach {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, it)) {
+                        AlertDialog.Builder(this)
+                            .setTitle("Permission required")
+                            .setMessage("This app needs permission $it to access this feature.")
+                            .setPositiveButton("Grant") { _, _ ->
+                                requestPermissionLauncher.launch(it)
+                            }
+                            .setNegativeButton("Cancel", null)
+                            .show()
+                    }
+                }
+            }
+
+            else -> {
+                requestAllPermissionsLauncher.launch(permissionsToRequest)
             }
         }
     }
@@ -65,7 +105,10 @@ class PermissionAc : ComponentActivity() {
                 Manifest.permission.CAMERA
             ) ==
                     PackageManager.PERMISSION_GRANTED -> {
-                // Camera permission is already granted. Feel free to take photos!
+                Log.d(
+                    this::class.simpleName,
+                    "Camera permission is already granted. Feel free to take photos!"
+                )
             }
 
             ActivityCompat.shouldShowRequestPermissionRationale(
@@ -93,12 +136,14 @@ class PermissionAc : ComponentActivity() {
     }
 
     fun onRequestCameraPermissionResult(granted: Boolean) {
-        if (granted) {
-            // Fine. Feel free to take photos!
-        } else if (!ActivityCompat
+        if (granted)
+            Log.d(
+                this::class.simpleName,
+                "Camera permission is already granted. Feel free to take photos!"
+            ) else if (!ActivityCompat
                 .shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)
-        ) {
-            // "Don't ask again"
+        )
+        // "Don't ask again"
             AlertDialog.Builder(this)
                 .setTitle("Permission required")
                 .setMessage(
@@ -118,18 +163,43 @@ class PermissionAc : ComponentActivity() {
                     }
                 }
                 .setNegativeButton("Cancel", null)
-                .show()
-        } else {
+                .show() else {
             // The permission was denied without checking "Don't ask again".
             // Do nothing, wait for better times…
         }
     }
 
     fun onRequestAllPermissionResult(granted: Map<String, Boolean>) {
-        if (granted.isNotEmpty() && granted.values.all { it }) {
-            //
+        if (granted.values.all { it }) {
+            Log.d(this::class.simpleName, "All permissions granted")
+            Toast.makeText(this, "All permissions granted!", Toast.LENGTH_SHORT).show()
         } else {
-            //
+            Log.d(this::class.simpleName, "Some permissions were denied")
+
+            val somePermissionsPermanentlyDenied = granted.entries.any { (permission, isGranted) ->
+                !isGranted && !ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
+            }
+
+            if (somePermissionsPermanentlyDenied) {
+                // Show a dialog to open app settings
+                AlertDialog.Builder(this)
+                    .setTitle("Permission Required")
+                    .setMessage("Some permissions were permanently denied. Please grant them in app settings to use this feature.")
+                    .setPositiveButton("Settings") { _, _ ->
+                        try {
+                            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                            val uri = Uri.fromParts("package", packageName, null)
+                            intent.data = uri
+                            startActivity(intent)
+                        } catch (_: ActivityNotFoundException) {
+                            Toast.makeText(this, "Cannot open settings", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    .setNegativeButton("Cancel", null)
+                    .show()
+            } else {
+                Toast.makeText(this, "Some permissions were denied.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.ad.test.core_component
+package com.ad.test.learn
 
 import android.Manifest
 import android.app.AlertDialog
@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
@@ -71,6 +72,7 @@ class Main1() : ComponentActivity() {
                         E()
                         F()
                         G()
+                        H()
                     }
                 }
             }
@@ -285,6 +287,18 @@ class Main1() : ComponentActivity() {
     }
 
     @Composable
+    fun H() {
+        val intent = Intent(Intent.ACTION_DIAL).setData("tel:123456789".toUri())
+        intent.putExtra(Intent.EXTRA_TEXT, "Hello")
+
+        val title = "Share this image with"
+        val chooser = Intent.createChooser(intent, title)
+        Button({ startActivity(chooser) }) {
+            Text("Implicit intent with chooser")
+        }
+    }
+
+    @Composable
     private fun CallButton(phoneNumber: String) {
         val context = LocalContext.current
 
@@ -356,6 +370,12 @@ class Main2() : ComponentActivity() {
                         Text("$data")
                         Text("$action")
                     }
+                    // ignore Uri.parse("tel:1234556789") for now
+                    val intent = Intent().apply {
+                        action = Intent.ACTION_DIAL
+                        data = "tel:123456789".toUri()
+                        extras
+                    }
                 }
             }
         }
@@ -365,6 +385,11 @@ class Main2() : ComponentActivity() {
 class Main3() : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (intent?.type == "text/plain") {
+            val text = intent.getStringExtra(Intent.EXTRA_TEXT)
+        } else if (intent?.type?.startsWith("image/") == true) {
+            val extra = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
+        }
         enableEdgeToEdge()
         setContent {
             TestTheme {
@@ -383,6 +408,18 @@ class Main3() : ComponentActivity() {
             }
         }
     }
+
+    fun sendMessage(message: String) {
+        // Write your code below
+        startActivity(Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, message)
+            type = "text/plain"
+        }
+        )
+    }
+
+    fun getMessage() = intent.getStringExtra(Intent.EXTRA_TEXT)
 }
 
 class AppFileProvider : FileProvider(R.xml.provider_paths)
