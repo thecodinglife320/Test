@@ -41,9 +41,9 @@
         </provider>
 
         <activity
-            android:name=".learn.MediaPlayerAc"
+            android:name=".learn.RecyclerViewAc"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat">
+            android:theme="@style/Theme.AppCompat.DayNight">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
