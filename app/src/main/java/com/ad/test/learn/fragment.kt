@@ -24,7 +24,6 @@ class YourFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.your_fragment_layout, container, false)
 }
-
 class DefaultFragment : Fragment() {
 
     override fun onCreateView(

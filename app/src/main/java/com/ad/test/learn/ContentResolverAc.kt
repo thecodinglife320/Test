@@ -93,7 +93,6 @@ class ContentResolverAc : ComponentActivity() {
             TestTheme {
 
                 val snackBarHostState = remember { SnackbarHostState() }
-
                 Scaffold(
                     snackbarHost = { SnackbarHost(snackBarHostState) }
                 ) { innerPadding ->

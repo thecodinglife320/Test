@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.database.getStringOrNull
 import com.ad.test.ui.theme.TestTheme
 
-class Main3a() : ComponentActivity() {
+class Main3a : ComponentActivity() {
 
     // Register the result callback
     private val pickContact =
