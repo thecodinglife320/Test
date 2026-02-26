@@ -115,8 +115,8 @@ class ContentResolverAc : ComponentActivity() {
                                 Toast.makeText(
                                     this@ContentResolverAc,
                                     when {
-                                        info.isPng() ->"PNG File"
-                                        info.isPdf() ->"PDF File "
+                                        info.isPng() -> "PNG File"
+                                        info.isPdf() -> "PDF File "
                                         else -> "Other file"
                                     },
                                     Toast.LENGTH_SHORT
@@ -175,7 +175,8 @@ class ContentResolverAc : ComponentActivity() {
                                         queryImages {
                                             galleryImages.apply {
                                                 clear()
-                                            }.addAll(it)
+                                                addAll(it)
+                                            }
                                         }
                                     }
                                 }
@@ -331,7 +332,7 @@ class ContentResolverAc : ComponentActivity() {
         }
     }
 
-    private fun queryImages(onMoveCursor: (List<GalleryImage>) -> Unit) {
+    private fun queryImages(onAfterQuery: (List<GalleryImage>) -> Unit) {
         val galleryImages = mutableListOf<GalleryImage>()
         contentResolver
             .query(
@@ -342,10 +343,12 @@ class ContentResolverAc : ComponentActivity() {
                     MediaStore.Images.ImageColumns.HEIGHT,
                     MediaStore.Images.ImageColumns.DISPLAY_NAME,
                 ),
-                "${MediaStore.Images.ImageColumns.WIDTH} > ? AND ${MediaStore.Images.ImageColumns.HEIGHT} > ?",
-                arrayOf("1000", "1000"),
-                MediaStore.Images.ImageColumns.WIDTH + " * " +
-                        MediaStore.Images.ImageColumns.HEIGHT,
+//                "${MediaStore.Images.ImageColumns.WIDTH} > ? AND ${MediaStore.Images.ImageColumns.HEIGHT} > ?",
+//                arrayOf("1000", "1000"),
+//                MediaStore.Images.ImageColumns.WIDTH + " * " +
+//                        MediaStore.Images.ImageColumns.HEIGHT,
+                null,
+                null,
                 null,
             )?.use { c ->
                 while (c.moveToNext()) {
@@ -361,7 +364,7 @@ class ContentResolverAc : ComponentActivity() {
                     )
                 }
             }
-        onMoveCursor(galleryImages)
+        onAfterQuery(galleryImages)
     }
 
     private fun copyImageToPrivateStorage(sourceUri: Uri, fileName: String): File? {
@@ -376,7 +379,9 @@ class ContentResolverAc : ComponentActivity() {
             FileOutputStream(outputFile).use { output ->
                 val buffer = ByteArray(4 * 1024) // 4KB buffer
                 var read: Int
-                while (input.read(buffer).also { read = it } != -1) {
+                while (input.read(buffer)
+                        .also { read = it } != -1
+                ) {
                     output.write(buffer, 0, read)
                 }
                 output.flush()
@@ -432,14 +437,15 @@ object FileMetadataHelper {
                 val mappedBuffer =
                     channel.map(FileChannel.MapMode.READ_ONLY, 0, 4L.coerceAtMost(fileSize))
 
-                val magicBytes = StringBuilder()
-                while (mappedBuffer.hasRemaining()) {
-                    magicBytes.append(String.format("%02X", mappedBuffer.get()))
+                val magicBytes = buildString {
+                    while (mappedBuffer.hasRemaining()) {
+                        append("%02X".format(mappedBuffer.get()))
+                    }
                 }
 
                 FileInfo(
                     size = fileSize,
-                    magicBytesHex = magicBytes.toString(),
+                    magicBytesHex = magicBytes,
                     mimeType = context.contentResolver.getType(uri) ?: "unknown"
                 )
             }

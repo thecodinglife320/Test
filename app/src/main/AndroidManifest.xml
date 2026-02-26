@@ -41,7 +41,7 @@
         </provider>
 
         <activity
-            android:name=".learn.RecyclerViewAc"
+            android:name=".learn.PostingNotifications"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight">
             <intent-filter>

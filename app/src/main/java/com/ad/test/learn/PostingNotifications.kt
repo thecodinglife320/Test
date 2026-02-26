@@ -15,6 +15,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.app.NotificationCompat
 import com.ad.test.R
@@ -35,7 +39,11 @@ class PostingNotifications : ComponentActivity() {
             val name = "Delivery status"
             val descriptionText = "Your delivery status"
             val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                name,
+                importance
+            ).apply {
                 description = descriptionText
             }
             // Register the channel with the system
@@ -45,14 +53,18 @@ class PostingNotifications : ComponentActivity() {
         setContent {
             TestTheme {
                 Scaffold {
+
+                    var id by remember { mutableIntStateOf(0) }
+
                     Column(
                         Modifier
                             .fillMaxSize()
                             .padding(it)
                     ) {
                         Button({
+                            id++
                             val notification = createNotification()
-                            notificationManager.notify(0, notification)
+                            notificationManager.notify(id, notification)
                         }) {
                             Text("Notification")
                         }
@@ -63,7 +75,8 @@ class PostingNotifications : ComponentActivity() {
     }
 
     private fun createNotification() =
-        NotificationCompat.Builder(this, CHANNEL_ID)
+        NotificationCompat
+            .Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.outline_save_24)
             .setContentTitle("Delivery")
             .setContentText("Food is ready!")

@@ -30,7 +30,7 @@ class PermissionAc : ComponentActivity() {
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission(),
-            ::onRequestCameraPermissionResult
+            ::onRequestPermissionResult
         )
 
     private val requestAllPermissionsLauncher =
@@ -65,9 +65,14 @@ class PermissionAc : ComponentActivity() {
     }
 
     fun checkPermissions() {
-        val permissionsToRequest = permissions.filter {
-            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
-        }.toTypedArray()
+        val permissionsToRequest = permissions
+            .filter {
+                ContextCompat.checkSelfPermission(
+                    this,
+                    it
+                ) != PackageManager.PERMISSION_GRANTED
+            }
+            .toTypedArray()
 
         when {
             permissionsToRequest.isEmpty() -> {
@@ -135,13 +140,16 @@ class PermissionAc : ComponentActivity() {
 
     }
 
-    fun onRequestCameraPermissionResult(granted: Boolean) {
+    fun onRequestPermissionResult(granted: Boolean) {
         if (granted)
             Log.d(
                 this::class.simpleName,
                 "Camera permission is already granted. Feel free to take photos!"
-            ) else if (!ActivityCompat
-                .shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)
+            )
+        else if (!ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.CAMERA
+            )
         )
         // "Don't ask again"
             AlertDialog.Builder(this)
@@ -163,7 +171,8 @@ class PermissionAc : ComponentActivity() {
                     }
                 }
                 .setNegativeButton("Cancel", null)
-                .show() else {
+                .show()
+        else {
             // The permission was denied without checking "Don't ask again".
             // Do nothing, wait for better times…
         }

@@ -51,7 +51,7 @@ import com.ad.test.ui.theme.TestTheme
 import kotlinx.coroutines.launch
 import java.io.File
 
-class Main1() : ComponentActivity() {
+class Main1 : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,8 +84,9 @@ class Main1() : ComponentActivity() {
         Button({
             startActivity(
                 Intent(Intent.ACTION_VIEW)
-                    .setDataAndType("https://hyperskill.org/".toUri(), "text/html")
+                    .setData("https://www.example.com/".toUri())
                     .addCategory(Intent.CATEGORY_BROWSABLE)
+
             )
         }) {
             Text("A")
@@ -97,7 +98,10 @@ class Main1() : ComponentActivity() {
         Button({
             startActivity(
                 Intent(Intent.ACTION_VIEW)
-                    .setDataAndType("https://…/….pdf".toUri(), "application/pdf")
+                    .setDataAndType(
+                        "https://www.moj.gov.vn/dtvb/dtvbp/Lists/DuThaoVBQPPL/Attachments/287/D%E1%BB%B1%20th%E1%BA%A3o%20Th%C3%B4ng%20t%C6%B0.pdf".toUri(),
+                        "application/pdf"
+                    )
                     .addCategory(Intent.CATEGORY_BROWSABLE)
             )
         }) {
@@ -172,11 +176,11 @@ class Main1() : ComponentActivity() {
                 photosDir.mkdirs()
                 photoFile = File.createTempFile("photo", ".jpg", photosDir)
 
-                val fileUri = photoFile?.let {
+                val fileUri = photoFile?.let { file ->
                     FileProvider.getUriForFile(
                         context,
                         "$packageName.fileprovider",
-                        it
+                        file
                     )
                 }
 
@@ -336,8 +340,8 @@ class Main1() : ComponentActivity() {
     // Hàm helper để thực hiện Intent CALL
     private fun makePhoneCall(context: Context, phoneNumber: String) {
         val intent = Intent(
-//            Intent.ACTION_CALL
-            Intent.ACTION_DIAL
+            Intent.ACTION_CALL
+//            Intent.ACTION_DIAL
         ).apply {
             data = "tel:$phoneNumber".toUri()
         }
@@ -353,7 +357,7 @@ class Main1() : ComponentActivity() {
     }
 }
 
-class Main2() : ComponentActivity() {
+class Main2 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -370,25 +374,19 @@ class Main2() : ComponentActivity() {
                         Text("$data")
                         Text("$action")
                     }
-                    // ignore Uri.parse("tel:1234556789") for now
-                    val intent = Intent().apply {
-                        action = Intent.ACTION_DIAL
-                        data = "tel:123456789".toUri()
-                        extras
-                    }
                 }
             }
         }
     }
 }
 
-class Main3() : ComponentActivity() {
+class Main3 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (intent?.type == "text/plain") {
-            val text = intent.getStringExtra(Intent.EXTRA_TEXT)
+            intent.getStringExtra(Intent.EXTRA_TEXT)
         } else if (intent?.type?.startsWith("image/") == true) {
-            val extra = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
+            intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
         }
         enableEdgeToEdge()
         setContent {
@@ -411,11 +409,12 @@ class Main3() : ComponentActivity() {
 
     fun sendMessage(message: String) {
         // Write your code below
-        startActivity(Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, message)
-            type = "text/plain"
-        }
+        startActivity(
+            Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, message)
+                type = "text/plain"
+            }
         )
     }
 

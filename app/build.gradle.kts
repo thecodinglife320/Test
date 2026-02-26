@@ -56,6 +56,8 @@ dependencies {
     implementation("jp.wasabeef:picasso-transformations:2.4.0")
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.fragment)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

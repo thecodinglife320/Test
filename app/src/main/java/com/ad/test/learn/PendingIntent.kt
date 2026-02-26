@@ -17,16 +17,18 @@ import androidx.annotation.RequiresPermission
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
 import com.ad.test.ui.theme.TestTheme
 import java.time.LocalTime
 import java.time.ZoneId
@@ -51,19 +53,21 @@ class PendingIntentAc : ComponentActivity() {
                         val pendingIntent = PendingIntent.getBroadcast(
                             context, 0, intent, PendingIntent.FLAG_IMMUTABLE
                         )
-                        var hour by remember { mutableIntStateOf(0) }
-                        var minute by remember { mutableIntStateOf(0) }
+                        var hour by remember { mutableStateOf("") }
+                        var minute by remember { mutableStateOf("") }
                         TextField(
-                            value = hour.toString(),
-                            onValueChange = { hour = it.toIntOrNull() ?: 0 }
+                            value = hour,
+                            onValueChange = { hour = it },
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
                         )
                         TextField(
-                            value = minute.toString(),
-                            onValueChange = { minute = it.toIntOrNull() ?: 0 }
+                            value = minute,
+                            onValueChange = { minute = it },
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
                         )
 
                         Button({
-                            scheduleAlarm(alarmManager, pendingIntent, hour, minute)
+                            scheduleAlarm(alarmManager, pendingIntent, hour.toInt(), minute.toInt())
                         }) {
                             Text("Set alarm")
                         }
