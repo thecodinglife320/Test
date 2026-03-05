@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="choiceA" type="id" />
+    <item name="choiceB" type="id" />
+    <item name="choiceC" type="id" />
+    <item name="choiceD" type="id" />
+</resources>

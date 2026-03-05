@@ -1,8 +1,22 @@
 <resources>
     <string name="app_name">Test</string>
     <string name="students_score">You scored %1$s out of %2$d</string>
+    <string name="salad">Salad</string>
+    <string name="fries">Fries</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="toggle_is_off">Toggle is off</string>
+    <string name="choice_d">Choice D</string>
+    <string name="choice_c">Choice C</string>
+    <string name="choice_b">Choice B</string>
+    <string name="choice_a">Choice A</string>
     <plurals name="points">
         <item quantity="one">%d point</item>
         <item quantity="other">%d points</item>
     </plurals>
+    <string-array name="countries_array">
+        <item>USA</item>
+        <item>Germany</item>
+        <item>Belgium</item>
+        <item>France</item>
+    </string-array>
 </resources>

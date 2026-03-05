@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="icon_size">32dp</dimen>
+    <dimen name="frame_width">5dp</dimen>
+    <dimen name="offsets">8dp</dimen>
+    <dimen name="medium">16dp</dimen>
+    <dimen name="zero">0dp</dimen>
+</resources>

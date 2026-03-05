@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/graph1"
+    app:startDestination="@id/defaultFragment">
+
+    <fragment
+        android:id="@+id/defaultFragment"
+        android:name="com.ad.test.learn.DefaultFragment"
+        android:label="DefaultFragment">
+        <action
+            android:id="@+id/action_default_to_your"
+            app:destination="@id/yourFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/yourFragment"
+        android:name="com.ad.test.learn.YourFragment"
+        android:label="YourFragment" />
+</navigation>

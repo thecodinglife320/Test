@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/basic"
+        android:title="Basic item" />
+
+    <item
+        android:id="@+id/checkbox"
+        android:checkable="true"
+        android:title="Checkable" />
+
+    <item
+        android:id="@+id/with_icon"
+        android:icon="@android:drawable/sym_action_email"
+        android:title="With icon"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/search_icon"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always|collapseActionView" />
+
+</menu>

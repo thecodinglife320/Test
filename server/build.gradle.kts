@@ -19,10 +19,10 @@ kotlin {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core:3.4.0")
-    implementation("io.ktor:ktor-server-netty:3.4.0")
-    implementation("io.ktor:ktor-server-html-builder:3.4.0")
-    implementation("org.jetbrains.kotlin-wrappers:kotlin-css:2026.2.15")
+    implementation("io.ktor:ktor-server-core:3.4.1")
+    implementation("io.ktor:ktor-server-netty:3.4.1")
+    implementation("io.ktor:ktor-server-html-builder:3.4.1")
+    implementation("org.jetbrains.kotlin-wrappers:kotlin-css:2026.3.4")
 
     // Logging (Tùy chọn nhưng nên có)
     implementation(libs.ktor.server.call.logging.jvm)

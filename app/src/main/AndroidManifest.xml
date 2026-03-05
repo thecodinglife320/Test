@@ -41,7 +41,7 @@
         </provider>
 
         <activity
-            android:name=".learn.PostingNotifications"
+            android:name=".learn.ViewActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight">
             <intent-filter>
