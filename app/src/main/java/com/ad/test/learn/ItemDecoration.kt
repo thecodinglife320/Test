@@ -30,6 +30,7 @@ fun ItemDecoration() {
     AndroidView(
         { context ->
             RecyclerView(context).apply {
+                background
                 layoutManager = LinearLayoutManager(context)
                 adapter = SimpleAdapter().apply {
                     submitList(List(200) {

@@ -47,7 +47,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import com.ad.test.R
-import com.ad.test.ui.theme.TestTheme
+import com.ad.test.ui.theme.AppTheme
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -57,7 +57,7 @@ class Main1 : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TestTheme {
+            AppTheme {
                 Scaffold {
                     Column(
                         Modifier
@@ -362,7 +362,7 @@ class Main2 : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TestTheme {
+            AppTheme {
                 Scaffold {
                     Column(
                         Modifier
@@ -390,7 +390,7 @@ class Main3 : ComponentActivity() {
         }
         enableEdgeToEdge()
         setContent {
-            TestTheme {
+            AppTheme {
                 Scaffold {
                     Column(
                         Modifier

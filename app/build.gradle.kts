@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.viewpager2)
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

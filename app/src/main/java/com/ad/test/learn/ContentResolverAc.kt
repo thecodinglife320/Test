@@ -65,7 +65,7 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.ad.test.R
-import com.ad.test.ui.theme.TestTheme
+import com.ad.test.ui.theme.AppTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.PermissionStatus
@@ -90,7 +90,7 @@ class ContentResolverAc : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TestTheme {
+            AppTheme {
 
                 val snackBarHostState = remember { SnackbarHostState() }
                 Scaffold(

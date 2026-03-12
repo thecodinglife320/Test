@@ -29,7 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import com.ad.test.ui.theme.TestTheme
+import com.ad.test.ui.theme.AppTheme
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -40,7 +40,7 @@ class PendingIntentAc : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TestTheme {
+            AppTheme {
                 Scaffold {paddingValues ->
                     Column(
                         Modifier

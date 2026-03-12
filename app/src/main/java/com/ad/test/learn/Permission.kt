@@ -23,7 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.ad.test.ui.theme.TestTheme
+import com.ad.test.ui.theme.AppTheme
 
 class PermissionAc : ComponentActivity() {
 
@@ -48,7 +48,7 @@ class PermissionAc : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TestTheme {
+            AppTheme {
                 Scaffold { paddingValues ->
                     Column(
                         Modifier

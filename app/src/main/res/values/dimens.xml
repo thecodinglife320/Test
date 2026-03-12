@@ -5,4 +5,6 @@
     <dimen name="offsets">8dp</dimen>
     <dimen name="medium">16dp</dimen>
     <dimen name="zero">0dp</dimen>
+    <dimen name="small">8dp</dimen>
+    <dimen name="border">1dp</dimen>
 </resources>

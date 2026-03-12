@@ -20,7 +20,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.core.database.getStringOrNull
-import com.ad.test.ui.theme.TestTheme
+import com.ad.test.ui.theme.AppTheme
 
 class Main3a : ComponentActivity() {
 
@@ -58,7 +58,7 @@ class Main3a : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TestTheme {
+            AppTheme {
                 Scaffold {
                     Column(
                         Modifier

@@ -22,7 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.app.NotificationCompat
 import com.ad.test.R
-import com.ad.test.ui.theme.TestTheme
+import com.ad.test.ui.theme.AppTheme
 
 // Create the NotificationChannel, but only on API 26+ because
 // the NotificationChannel class is not in the support library
@@ -51,7 +51,7 @@ class PostingNotifications : ComponentActivity() {
             notificationManager.createNotificationChannel(channel)
         }
         setContent {
-            TestTheme {
+            AppTheme {
                 Scaffold {
 
                     var id by remember { mutableIntStateOf(0) }

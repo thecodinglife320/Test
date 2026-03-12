@@ -36,7 +36,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.ad.test.R
-import com.ad.test.ui.theme.TestTheme
+import com.ad.test.ui.theme.AppTheme
 import kotlin.random.Random
 
 class RecyclerViewAc : ComponentActivity() {
@@ -47,7 +47,7 @@ class RecyclerViewAc : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TestTheme {
+            AppTheme {
                 Scaffold { paddingValues ->
                     val data = Bank().generateTransactions()
                     Column(
