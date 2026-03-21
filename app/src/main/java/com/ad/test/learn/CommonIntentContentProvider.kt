@@ -45,6 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.content.IntentCompat
 import androidx.core.net.toUri
 import com.ad.test.R
 import com.ad.test.ui.theme.AppTheme
@@ -64,7 +65,7 @@ class Main1 : ComponentActivity() {
                             .fillMaxSize()
                             .padding(it)
                     ) {
-                        CallButton("0362581355")
+                        CallButton()
                         A()
                         B()
                         C()
@@ -215,12 +216,10 @@ class Main1 : ComponentActivity() {
             singleLine = false,
             trailingIcon = {
                 IconButton({
-
                     val builder = AlertDialog.Builder(context)
                     val inputField = EditText(context).apply {
                         hint = "Example: note_ubuntu"
                     }
-
                     builder
                         .setTitle("Create new file")
                         .setMessage("Enter file name:")
@@ -263,6 +262,7 @@ class Main1 : ComponentActivity() {
                 }
             }
         )
+        text
     }
 
     @Composable
@@ -303,7 +303,7 @@ class Main1 : ComponentActivity() {
     }
 
     @Composable
-    private fun CallButton(phoneNumber: String) {
+    private fun CallButton() {
         val context = LocalContext.current
 
         // Launcher để xử lý yêu cầu cấp quyền
@@ -312,7 +312,7 @@ class Main1 : ComponentActivity() {
         ) { isGranted ->
             if (isGranted) {
                 // Nếu được cấp quyền, tiến hành gọi
-                makePhoneCall(context, phoneNumber)
+                makePhoneCall(context)
             } else {
                 // Xử lý khi bị từ chối quyền
                 Toast.makeText(
@@ -328,22 +328,22 @@ class Main1 : ComponentActivity() {
             val permissionCheck =
                 ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
             if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                makePhoneCall(context, phoneNumber)
+                makePhoneCall(context)
             } else {
                 permissionLauncher.launch(Manifest.permission.CALL_PHONE)
             }
         }) {
-            Text("Gọi ngay: $phoneNumber")
+            Text("Gọi")
         }
     }
 
     // Hàm helper để thực hiện Intent CALL
-    private fun makePhoneCall(context: Context, phoneNumber: String) {
+    private fun makePhoneCall(context: Context) {
         val intent = Intent(
             Intent.ACTION_CALL
 //            Intent.ACTION_DIAL
         ).apply {
-            data = "tel:$phoneNumber".toUri()
+            data = "tel:$0362581355".toUri()
         }
         context.startActivity(intent)
     }
@@ -386,7 +386,7 @@ class Main3 : ComponentActivity() {
         if (intent?.type == "text/plain") {
             intent.getStringExtra(Intent.EXTRA_TEXT)
         } else if (intent?.type?.startsWith("image/") == true) {
-            intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
+            IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)
         }
         enableEdgeToEdge()
         setContent {
@@ -406,19 +406,6 @@ class Main3 : ComponentActivity() {
             }
         }
     }
-
-    fun sendMessage(message: String) {
-        // Write your code below
-        startActivity(
-            Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, message)
-                type = "text/plain"
-            }
-        )
-    }
-
-    fun getMessage() = intent.getStringExtra(Intent.EXTRA_TEXT)
 }
 
 class AppFileProvider : FileProvider(R.xml.provider_paths)

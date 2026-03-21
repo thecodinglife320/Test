@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.toColorInt
 import androidx.core.view.setPadding
@@ -39,7 +40,7 @@ fun ItemDecoration() {
                 }
                 addItemDecoration(
                     IconItemDecoration(
-                        resources.getDrawable(R.drawable.rotate_drawable),
+                        ResourcesCompat.getDrawable(resources,R.drawable.rotate_drawable,null),
                         resources.getDimensionPixelSize(R.dimen.icon_size),
                         resources.getDimensionPixelSize(R.dimen.zero)
                     )
@@ -133,7 +134,7 @@ class OffsetItemDecoration(private val spacingInPx: Int) : RecyclerView.ItemDeco
 }
 
 class IconItemDecoration(
-    private val iconDrawable: Drawable,
+    private val iconDrawable: Drawable?,
     private val iconSizeInPx: Int,
     private val padding: Int
 ) : RecyclerView.ItemDecoration() {
@@ -150,8 +151,8 @@ class IconItemDecoration(
             val right = left + iconSizeInPx
             val bottom = top + iconSizeInPx
 
-            iconDrawable.setBounds(left, top, right, bottom)
-            iconDrawable.draw(c)
+            iconDrawable?.setBounds(left, top, right, bottom)
+            iconDrawable?.draw(c)
         }
     }
 }

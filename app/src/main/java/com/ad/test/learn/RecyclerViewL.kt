@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -56,6 +58,7 @@ class RecyclerViewAc : ComponentActivity() {
                             .padding(paddingValues),
                     ) {
                         var position by remember { mutableStateOf("") }
+                        var edit by remember { mutableStateOf("") }
                         TextField(
                             singleLine = true,
                             modifier = Modifier.fillMaxWidth(),
@@ -79,6 +82,20 @@ class RecyclerViewAc : ComponentActivity() {
                             onValueChange = { position = it },
                             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
                         )
+                        TextField(
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth(),
+                            trailingIcon = {
+                                IconButton({
+                                    recyclerView.adapter?.notifyItemChanged(1)
+                                }) {
+                                    Icon(Icons.Default.Edit, null)
+                                }
+                            },
+                            value = edit,
+                            onValueChange = { edit = it },
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text)
+                        )
                         AndroidView(
                             factory = {
                                 RecyclerView(it).apply {
@@ -96,8 +113,8 @@ class RecyclerViewAc : ComponentActivity() {
                                             )
                                         }
                                     )
-                                    (itemAnimator as SimpleItemAnimator).supportsChangeAnimations =
-                                        false
+//                                    (itemAnimator as SimpleItemAnimator).supportsChangeAnimations =
+//                                        false
                                     layoutManager = LinearLayoutManager(this@RecyclerViewAc)
                                     adapter = TransactionsAdapter(data) { transaction ->
                                         Toast.makeText(
@@ -139,7 +156,10 @@ class TransactionsAdapter(
             override fun areContentsTheSame(
                 oldItem: Transaction, newItem: Transaction,
             ) = (oldItem == newItem)
-        }) {
+
+            override fun getChangePayload(oldItem: Transaction, newItem: Transaction)=Unit
+        }
+    ) {
 
     init {
         submitList(transactions)
@@ -171,15 +191,16 @@ class TransactionsAdapter(
         }
     }
 
+    @Suppress("unused")
     fun add(transaction: Transaction) {
         submitList(currentList + transaction)
     }
 
     class TransactionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val receiver = view.findViewById<TextView?>(R.id.receiver_tv)
-        val account = view.findViewById<TextView?>(R.id.account_tv)
-        val amount = view.findViewById<TextView?>(R.id.amount_tv)
-        val status = view.findViewById<TextView?>(R.id.status_tv)
+        val receiver: TextView? = view.findViewById(R.id.receiver_tv)
+        val account: TextView? = view.findViewById(R.id.account_tv)
+        val amount: TextView? = view.findViewById(R.id.amount_tv)
+        val status: TextView? = view.findViewById(R.id.status_tv)
     }
 }
 

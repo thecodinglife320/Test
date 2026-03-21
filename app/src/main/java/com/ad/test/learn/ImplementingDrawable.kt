@@ -125,7 +125,6 @@ fun GradientText() {
                     View(context).apply {
                         background = GradientTextDrawable()
                     }
-                    AlertDialog.Builder(context).setCancelable()
                 },
                 Modifier
                     .height(200.dp)
